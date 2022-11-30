@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  name: MyString
+  rows: 1
+  good_rows: 1
+  bad_rows: 1
+  invalid_rows: 1
+  job_status: MyString
+  finished_at: 2022-11-25 21:01:46
+
+two:
+  user: two
+  name: MyString
+  rows: 1
+  good_rows: 1
+  bad_rows: 1
+  invalid_rows: 1
+  job_status: MyString
+  finished_at: 2022-11-25 21:01:46

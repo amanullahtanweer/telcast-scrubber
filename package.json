@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "flowbite": "^1.5.4",
+    "jquery": "^3.6.1"
+  }
+}
