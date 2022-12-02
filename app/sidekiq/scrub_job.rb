@@ -7,28 +7,33 @@ class ScrubJob
     @result = Result.find(result_id)
     csv_column = @result.csv_column || 0
     file_name = @result.name.split(".csv")[0]
-    rows_count = 0
     good_count = 0
     bad_count = 0
     invalid_count = 0
-
     good_rows = []
     bad_rows  = []
-
-    
     mapped_rows = []
 
     rows = CSV.parse(@result.file.download, headers: false)
+    headers = CSV.generate_line(rows[0])
+
+    # More than 1 than column
+    if rows[0].length > 1
+      good_rows << headers
+      bad_rows << headers
+      rows.pop
+    end
+
+    # Remove any invalid number
     rows.each do |row|
-      rows_count += 1
       phone = row[csv_column].delete_prefix("1")
       if phone.length == 10
         mapped_rows << row
       else
         invalid_count += 1
       end
-      
     end
+
     start_time = DateTime.now
     master = $redis.SMEMBERS 'master'
     found  = $redis.SMISMEMBER 'master', mapped_rows.map{|row| row[csv_column]}
@@ -36,14 +41,14 @@ class ScrubJob
     mapped_rows.each_with_index do |row, index|
       if found[index] == 1
         bad_count += 1
-        bad_rows << row
+        bad_rows << CSV.generate_line(row)
       else
         good_count += 1
-        good_rows << row
+        good_rows << CSV.generate_line(row)
       end
     end
 
-    @result.rows = rows_count
+    @result.rows = rows.count
     @result.good_rows = good_count
     @result.bad_rows = bad_count
     @result.finished_at = start_time
