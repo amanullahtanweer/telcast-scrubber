@@ -51,7 +51,5 @@ test:
 production:
   <<: *default
   database: telcast_scrubber_production
-  username: telcast_scrubber
   password: <%= ENV["TELCAST_SCRUBBER_DATABASE_PASSWORD"] %>
   socket: /var/run/mysqld/mysqld.sock
-  host: 127.0.0.1
