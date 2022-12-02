@@ -82,3 +82,5 @@ gem "tailwindcss-rails", "~> 2.0"
 gem "sidekiq", "~> 7.0"
 
 gem "hiredis", "~> 0.6.3"
+
+gem 'mina-version_managers'
