@@ -14,4 +14,6 @@ class ResultsController < ApplicationController
     @result.save
     redirect_to results_url
   end
+
+ 
 end

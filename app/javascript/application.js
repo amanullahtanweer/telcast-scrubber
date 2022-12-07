@@ -46,6 +46,10 @@ function parseFile(file) {
   document.getElementById('response').classList.remove('hidden')
   console.log(file.name)
   output('<p class="text-xs text-green mb-2">' + encodeURI(file.name) + '</p>')
+  const fileInput = document.querySelector('input[type="file"]')
+  const dataTransfer = new DataTransfer()
+  dataTransfer.items.add(file)
+  fileInput.files = dataTransfer.files
 }
 
 function output(msg) {

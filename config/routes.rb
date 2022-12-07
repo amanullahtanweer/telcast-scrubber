@@ -4,5 +4,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources :results
+  resources :datasets
   root "dashboard#index"
+  get "manual" => "dashboard#manual"
 end
