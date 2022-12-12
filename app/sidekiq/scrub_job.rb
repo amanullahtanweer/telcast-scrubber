@@ -1,6 +1,8 @@
 class ScrubJob
   require 'csv'
   include Sidekiq::Job
+  sidekiq_options retry: 0
+
 
   def perform(result_id)
 
@@ -47,6 +49,7 @@ class ScrubJob
         good_rows << CSV.generate_line(row)
       end
     end
+    puts bad_rows.join("\n")
 
     @result.rows = rows.count
     @result.good_rows = good_count
@@ -54,10 +57,10 @@ class ScrubJob
     @result.finished_at = start_time
     @result.job_status  = 'finished'
 
-    @result.good_file.attach(io: StringIO.new(good_rows.join("\n")),
+    @result.good_file.attach(io: StringIO.new(good_rows.join("")),
                             filename: "#{file_name}-GOOD.csv",
                             content_type: 'text/csv')
-    @result.bad_file.attach(io: StringIO.new(bad_rows.join("\n")),
+    @result.bad_file.attach(io: StringIO.new(bad_rows.join("")),
                             filename: "#{file_name}-BAD.csv",
                             content_type: 'text/csv')                        
     @result.save
