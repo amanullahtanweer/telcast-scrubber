@@ -7,7 +7,7 @@ class ResultsController < ApplicationController
   def create
     @result = Result.new
     @result.user = current_user
-    @result.csv_column = params['csv_column'].to_i
+    @result.csv_column = params['result']['csv_column'].to_i
     @result.file = params['result']['file']
     @result.name = params['result']['file'].original_filename
     @result.rows = 0

@@ -35,11 +35,11 @@ class ScrubJob
           invalid_count += 1
         end
       end
-      puts mapped_rows
-      puts mapped_rows.count
       start_time = DateTime.now
-      master = $redis.SMEMBERS 'master'
-      found  = $redis.SMISMEMBER 'master', mapped_rows.map{|row| row[csv_column]}
+      if mapped_rows.count > 0
+        master = $redis.SMEMBERS 'master'
+        found  = $redis.SMISMEMBER 'master', mapped_rows.map{|row| row[csv_column]}
+      end
 
       mapped_rows.each_with_index do |row, index|
         if found[index] == 1
