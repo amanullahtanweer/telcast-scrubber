@@ -35,7 +35,8 @@ class ScrubJob
           invalid_count += 1
         end
       end
-
+      puts mapped_rows
+      puts mapped_rows.count
       start_time = DateTime.now
       master = $redis.SMEMBERS 'master'
       found  = $redis.SMISMEMBER 'master', mapped_rows.map{|row| row[csv_column]}
