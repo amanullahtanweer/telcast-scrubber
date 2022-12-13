@@ -28,11 +28,13 @@ class ScrubJob
 
       # Remove any invalid number
       rows.each do |row|
-        phone = row[csv_column].delete_prefix("1")
-        if phone.length == 10
-          mapped_rows << row
-        else
-          invalid_count += 1
+        if row[csv_column]
+          phone = row[csv_column].delete_prefix("1") rescue nil
+          if phone.length == 10
+            mapped_rows << row
+          else
+            invalid_count += 1
+          end
         end
       end
       start_time = DateTime.now
@@ -50,7 +52,6 @@ class ScrubJob
           good_rows << CSV.generate_line(row)
         end
       end
-      puts bad_rows.join("\n")
 
       @result.rows = rows.count
       @result.good_rows = good_count
