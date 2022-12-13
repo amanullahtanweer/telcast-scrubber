@@ -1,4 +1,4 @@
-<div class="px-6 py-8 mx-auto w-500 lg:py-0">
+<div class="px-6 py-8 mx-auto w-500 lg:py-0 rounded-lg ">
   <div class="p-1 bg-white  rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 text-left min-h-50">
     <div class="relative">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -14,6 +14,12 @@
               Rows
             </th>
             <th scope="col" class="py-3 px-6">
+              Good
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Bad
+            </th>
+            <th scope="col" class="py-3 px-6">
               Processing Time
             </th>
             <th scope="col" class="py-3 px-6">
@@ -26,24 +32,30 @@
         </thead>
         <tbody>
           <% @results.each do |result|%>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r">
                 <%= result.name %>
               </th>
-              <td class="py-4 px-6">
-                <%= result.created_at %>
+              <td class="py-4 px-6 border-r">
+                <%= result.created_at.strftime("%F")  %>
               </td>
-              <td class="py-4 px-6">
+              <td class="py-4 px-6 border-r text-teal-600">
                 <%= number_with_delimiter(result.rows) %>
               </td>
-              <td class="py-4 px-6">
+              <td class="py-4 px-6 border-r text-green-600">
+                <%= number_with_delimiter(result.good_rows) || "-" %>
+              </td>
+              <td class="py-4 px-6 border-r text-red-600">
+                <%= number_with_delimiter(result.bad_rows) || "-" %>
+              </td>
+              <td class="py-4 px-6 border-r">
                 <% if result.job_status != 'processing' %>
-                  <%= result.finished_at - result.created_at %>
+                  <%= number_with_precision(result.finished_at - result.created_at, :precision => 3) %>
                 <% else %>
                   -
                 <% end %>
               </td>
-              <td class="py-4 px-6">
+              <td class="py-4 px-6 border-r text-center">
                 <% if result.job_status == "processing" %>
                   <div role="status">
                     <svg aria-hidden="true" class="w-6 h-6 mx-auto text-center text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +64,11 @@
                     </svg>
                     <span class="sr-only">Loading...</span>
                   </div>
-                <% else %>
+                <% end %>
+                <% if result.job_status == "failed" %>
+                  <svg class="w-6 h-6 text-red-600 mx-auto text-center" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <% end %>
+                <% if result.job_status == "finished" %>
                   <svg class="w-6 h-6 mx-auto text-green stroke-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <% end %>
               </td>
@@ -63,7 +79,7 @@
                 <!-- Dropdown menu -->
                 <div id="dropdownDots-<%= result.id %>" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 text-left">
                   <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
-                    <% if result.job_status != 'processing' %>
+                    <% if result.job_status == 'finished' %>
                       <li>
                         <%# <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Good</a> %>
                         <%= link_to 'Good', rails_blob_path(result.good_file, disposition: 'attachment'), class: "block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>

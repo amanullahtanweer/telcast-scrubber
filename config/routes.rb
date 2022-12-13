@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :results
-  resources :datasets
+  resources :datasets do
+    collection do
+      get :modify
+      post :modify_dataset
+    end
+  end
   root "dashboard#index"
   get "manual" => "dashboard#manual"
 
