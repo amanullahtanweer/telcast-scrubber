@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
   root "dashboard#index"
   get "manual" => "dashboard#manual"
+  post "download" => "dashboard#manual_result"
 
   authenticate :user, ->(u) { u.is_admin? } do
     mount Sidekiq::Web => '/sidekiq'

@@ -6,9 +6,17 @@ class DatasetsController < ApplicationController
   end
 
   def modify 
+    unless current_user.is_admin
+      flash[:notice] = "Restricted Area"
+      redirect_to datasets_url
+    end
   end
 
   def modify_dataset
+    unless current_user.is_admin
+      flash[:notice] = "Restricted Area"
+      redirect_to datasets_url
+    end
     numbers = params['numbers'] || []
 		numbers = numbers.split("\r\n")
     numbers = numbers.map {|x| x.delete_prefix('1')}
