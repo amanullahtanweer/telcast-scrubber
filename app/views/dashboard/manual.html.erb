@@ -1,7 +1,7 @@
 <div class="px-6 py-8 mx-auto sm:max-w-xl lg:py-0">
   <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 text-left">
     <%= form_for :download, url: download_url  do |form| %>
-      <p class="mb-3">Update Master Dataset with new numbers, please select the option below</p>
+      <p class="mb-3">Scrub Numbers from the master database</p>
       
       <div class="flex items-center justify-center w-full mb-3 mt-3">
         <textarea onkeypress="return isNumber(event)" id="numbers" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="One Number Per Line..." name="numbers" required></textarea>
