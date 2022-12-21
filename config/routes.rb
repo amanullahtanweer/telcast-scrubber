@@ -3,6 +3,11 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :users
 
+  namespace :admin do
+    resources :users do
+    end
+  end
+
   resources :results
   resources :datasets do
     collection do

@@ -1,0 +1,50 @@
+<div class="px-6 py-8 mx-auto w-500 lg:py-0">
+  <div class="p-1 bg-white  rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 text-left min-h-50">
+    <div class="relative">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="py-3 px-6">
+              Name
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Email
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Status
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Join Date
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
+              <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <%= user.name %>
+              </th>
+              <td class="py-4 px-6">
+                <%= user.email %>
+              </td>
+              <td class="py-4 px-6">
+                Active
+              </td>
+              <td class="py-4 px-6">
+                <%= user.created_at.strftime("%F") %>
+              </td>
+              <td class="py-4 px-6 text-center">
+                <a href="" class="inline-flex items-center hover:text-blue-700">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
