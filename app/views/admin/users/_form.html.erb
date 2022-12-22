@@ -1,0 +1,25 @@
+<div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+    Update User
+  </h3>
+</div>
+<%= simple_form_for([:admin, @user]) do |f| %>
+  <div class="grid gap-6 mb-4 sm:grid-cols-2">
+    <div class="grid gap-4">
+      <%= f.input :name %>
+      <%= f.input :company %>
+    </div>
+    <div>
+      <%= f.input :email, input_html: { readonly: @user.new_record? ? false : true} %>
+    </div>
+    <div>
+      <%= f.input :password, input_html: { autocomplete: false } %>
+    </div>
+    <div>
+      <%= f.input :password_confirmation, input_html: { autocomplete: false } %>
+    </div>
+    <%= f.input :is_active, as: :select, collection: [['Active',true], ['Disabled',false]], label: 'Active Status', include_blank: false %>
+  </div>
+  <button type="submit" class=" text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-75">Update</button>
+  <button type="button" onclick="window.location.href='/admin/users'" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-75">Back</button>
+<% end %>
