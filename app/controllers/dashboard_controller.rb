@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  before_action :check_user
 
   def index
     @result = Result.new
@@ -28,6 +29,14 @@ class DashboardController < ApplicationController
     end
 
     render 'download'
+  end
+
+  private
+
+  def check_user
+    if !current_user.is_active
+      redirect_to results_path, alert: "Inactive Account - Please contact support"
+    end
   end
 
 end

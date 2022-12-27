@@ -2,7 +2,7 @@ class Admin::UsersController < Admin::AdminController
 	before_action :set_user, only: %i[show edit update destroy]
 
 	def index
-		@users = params[:q] ? User.all : User.where(is_active: true)
+		@users = params[:q] ? User.all : User.all
     @q = @users.ransack(params[:q])
     if request.xhr?
       respond_to do |format|
@@ -58,7 +58,7 @@ class Admin::UsersController < Admin::AdminController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    params.require(:user).permit(:first_name, :last_name,:street_addr, :phone, :country, :i_dids_charging_group, :i_dids_charging_group_tf, :purchase_limit, :password, :password_confirmation, :company, :i_account, :email, :username, :hide_number, :max_sessions, :manager_id, {:allowed_vendors => []}, :scrubber_credits, :enable_tfn, :enable_inventory, :enable_paypal, :minimum_cancel_days, :paperwork_complete)
+    params.require(:user).permit(:first_name, :last_name, :phone, :password, :password_confirmation, :company, :email, :is_active )
   end
 
 
