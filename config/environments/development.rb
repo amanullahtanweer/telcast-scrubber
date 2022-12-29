@@ -38,6 +38,17 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: "localhost:3000"}
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => 'AKIAWOZUO2ONK5OEARQY',
+    :password => 'BNG7X9EQ89s9XeNWLTMjRRXpn3vrLAkczqJSyDeSrTBb',
+    :domain => 'scrublists.com',
+    :address => 'email-smtp.us-east-1.amazonaws.com',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 
   config.action_mailer.perform_caching = false
 
