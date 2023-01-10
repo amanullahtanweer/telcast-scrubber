@@ -1,7 +1,11 @@
 class ResultsController < ApplicationController
 
   def index
-    @results = current_user.results
+    if current_user.is_admin?
+      @results = Result.all
+    else
+      @results = current_user.results 
+    end
   end
 
   def create
