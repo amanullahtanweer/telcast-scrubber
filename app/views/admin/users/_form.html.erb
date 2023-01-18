@@ -6,17 +6,17 @@
 <%= simple_form_for([:admin, @user], html: { autocomplete: 'none' } ) do |f| %>
   <div class="grid gap-6 mb-4 sm:grid-cols-2">
     <div class="grid gap-4">
-      <%= f.input :name, input_html: { autocomplete: 'none', role: 'presentation' } %>
-      <%= f.input :company, input_html: { autocomplete: 'none', role: 'presentation' } %>
+      <%= f.input :name, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
+      <%= f.input :company, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
     </div>
     <div>
       <%= f.input :email, input_html: { readonly: @user.new_record? ? false : true} %>
     </div>
     <div>
-      <%= f.input :password, input_html: { autocomplete: 'none', role: 'presentation' } %>
+      <%= f.input :password, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
     </div>
     <div>
-      <%= f.input :password_confirmation, input_html: { autocomplete: 'none', role: 'presentation' } %>
+      <%= f.input :password_confirmation, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
     </div>
     <%= f.input :is_active, as: :select, collection: [['Active',true], ['Disabled',false]], label: 'Active Status', include_blank: false %>
   </div>
