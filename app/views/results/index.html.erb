@@ -37,10 +37,10 @@
           <% @results.each do |result|%>
             <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
               <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r">
-                <%= result.name %>
+                <%= result.name.truncate(30 , separator: '...') %>
               </th>
               <td class="py-4 px-6 border-r">
-                <%= result.user.email  %>
+                <%= result.user.email.truncate(20 , separator: '...')  %>
               </td>
               <td class="py-4 px-6 border-r text-teal-600">
                 <%= number_with_delimiter(result.rows) %>

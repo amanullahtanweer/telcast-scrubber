@@ -3,9 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  validates :company, presence: true
+  validates :name, presence: true
   has_many :results
 
+  default_scope { order(created_at: :desc) }
 
 
 end
