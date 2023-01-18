@@ -5,6 +5,7 @@ class Result < ApplicationRecord
   has_one_attached :bad_file
 
   after_create_commit :start_scrubbing
+  default_scope { order(created_at: :desc) }
 
 
   def start_scrubbing
