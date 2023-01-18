@@ -8,7 +8,7 @@
               File
             </th>
             <th scope="col" class="py-3 px-6">
-              Started
+              User
             </th>
             <th scope="col" class="py-3 px-6">
               Rows
@@ -20,10 +20,13 @@
               Bad
             </th>
             <th scope="col" class="py-3 px-6">
-              Processing Time
+              Time (ms)
             </th>
             <th scope="col" class="py-3 px-6">
-              Job Status
+              Date
+            </th>
+            <th scope="col" class="py-3 px-6">
+              Status
             </th>
             <th scope="col" class="py-3 px-6">
               Action
@@ -37,7 +40,7 @@
                 <%= result.name %>
               </th>
               <td class="py-4 px-6 border-r">
-                <%= result.created_at.strftime("%F")  %>
+                <%= result.user.email  %>
               </td>
               <td class="py-4 px-6 border-r text-teal-600">
                 <%= number_with_delimiter(result.rows) %>
@@ -54,6 +57,9 @@
                 <% else %>
                   -
                 <% end %>
+              </td>
+              <td class="py-4 px-6 border-r">
+                <%= result.created_at.strftime("%F")  %>
               </td>
               <td class="py-4 px-6 border-r text-center">
                 <% if result.job_status == "processing" %>
