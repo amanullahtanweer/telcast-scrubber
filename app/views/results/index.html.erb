@@ -43,7 +43,7 @@
                 <%= result.name.truncate(30 , separator: '...') %>
               </th>
               <td class="py-2 px-4 border-r">
-                <%= result.user.email.truncate(20 , separator: '...')  %>
+                <%= result.user.company.truncate(20 , separator: '...')  %>
               </td>
               <td class="py-2 px-4 border-r text-teal-600">
                 <%= number_with_delimiter(result.rows) %>
