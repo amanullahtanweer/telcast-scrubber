@@ -14,6 +14,7 @@ class ResultsController < ApplicationController
     @result.csv_column = params['result']['csv_column'].to_i
     @result.file = params['result']['file']
     @result.name = params['result']['file'].original_filename
+    @result.dataset = params['result']['dataset']
     @result.rows = 0
     @result.job_status = 'processing'
     @result.save

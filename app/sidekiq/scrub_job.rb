@@ -39,8 +39,14 @@ class ScrubJob
       end
       start_time = DateTime.now
       if mapped_rows.count > 0
-        master = $redis.SMEMBERS 'master'
-        found  = $redis.SMISMEMBER 'master', mapped_rows.map{|row| row[csv_column]}
+        master = $redis.SMEMBERS @result.dataset
+        if @result.dataset == 'verizon'
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+        
+        else 
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
+        end
+
       end
 
       mapped_rows.each_with_index do |row, index|
