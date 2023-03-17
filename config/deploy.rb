@@ -1,6 +1,6 @@
 require 'mina/rails'
 require 'mina/git'
-require 'mina/rbenv'
+require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (https://rvm.io)
 
 # Basic settings:
@@ -9,11 +9,11 @@ require 'mina/rbenv'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :application_name, 'blocks.scrublists.com'
-set :domain, 'deploy@blocks.scrublists.com'
-set :deploy_to, '/home/deploy/blocks.scrublists.com'
-set :repository, 'https://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@github.com/amanullahtanweer/telcast-scrubber.git'
-set :branch, 'main'
+set :application_name, 'didnumber'
+set :domain, 'deploy@176.9.127.42'
+set :deploy_to, '/home/deploy/didnumber'
+set :repository, 'https://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@github.com/amanullahtanweer/did-number.git'
+set :branch, 'master'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -31,27 +31,29 @@ set :branch, 'main'
 task :remote_environment do
   # If you're using rbenv, use this to load the rbenv environment.
   # Be sure to commit your .ruby-version or .rbenv-version to your repository.
+  command %{export SECRET_KEY_BASE=22f9227cdbf6d88926a5b56e333c17debf279205bd99580c76f04de4f6e5421e282ce84909f322913df7a0b7ad604c2afe178826c6dbfce4ab4b72b8954e116edeploy}
+  command 'echo "[ STARTING EXTERNAL RAILS CONSOLE ]"'
   invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use', 'ruby-2.5.3@default'
+  # invoke :'rvm:use', 'ruby-1.9.3-p125@default'
 end
 
 # Put any custom commands you need to run at setup
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
-  # command %{rbenv install 2.5.3 --skip-existing}
-  # command %{rvm install ruby-2.5.3}
-  # command %{gem install bundler}
+  # command %{rbenv install 2.3.0 --skip-existing}
 end
 
 desc "Deploys the current version to the server."
 task :deploy do
+
   # uncomment this line to make sure you pushed your local branch to the remote origin
   # invoke :'git:ensure_pushed'
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
+    command %{export SECRET_KEY_BASE=22f9227cdbf6d88926a5b56e333c17debf279205bd99580c76f04de4f6e5421e282ce84909f322913df7a0b7ad604c2afe178826c6dbfce4ab4b72b8954e116edeploy}
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
@@ -63,13 +65,17 @@ task :deploy do
       in_path(fetch(:current_path)) do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
-        command %{sudo systemctl restart sidekiq}
+        command %{sudo systemctl restart nginx}
       end
     end
   end
 
   # you can use `run :local` to run tasks on local machine before of after the deploy scripts
   # run(:local){ say 'done' }
+end
+
+task :console do
+  
 end
 
 # For help in making your deploy script, see the Mina documentation:
