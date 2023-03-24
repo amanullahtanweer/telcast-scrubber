@@ -14,6 +14,9 @@
               User
             </th>
             <th scope="col" class="py-3 px-6">
+              Data Set 
+            </th>
+            <th scope="col" class="py-3 px-6">
               Rows
             </th>
             <th scope="col" class="py-3 px-6">
@@ -44,6 +47,9 @@
               </th>
               <td class="py-2 px-4 border-r">
                 <%= result.user.company.truncate(20 , separator: '...')  %>
+              </td>
+              <td class="py-2 px-4 border-r">
+                <%= result.dataset  %>
               </td>
               <td class="py-2 px-4 border-r text-teal-600">
                 <%= number_with_delimiter(result.rows) %>
