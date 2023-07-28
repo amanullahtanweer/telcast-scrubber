@@ -2,7 +2,7 @@ class ResultsController < ApplicationController
 
   def index
     if current_user.is_admin?
-      @results = Result.first(1000)
+      @results = Result.first(100)
     else
       @results = current_user.results 
     end
