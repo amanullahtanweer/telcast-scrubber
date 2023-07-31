@@ -19,6 +19,7 @@
       <%= f.input :password_confirmation, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
     </div>
     <%= f.input :is_active, as: :select, collection: [['Active',true], ['Disabled',false]], label: 'Active Status', include_blank: false %>
+    <%= f.input :datasets, include_blank: false, :collection => [["Global Block", 'master'],['Global Block + IPES', 'masteripes'],['Global Block + Verizon + IPES','masterverizon'],['Verizon + IPES','verizon'],['IPES','ipes']], input_html: { multiple: true }  %>
   </div>
   <button type="submit" class=" text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-75">Update</button>
   <button type="button" onclick="window.location.href='/admin/users'" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:opacity-75">Back</button>

@@ -15,9 +15,38 @@ class DashboardController < ApplicationController
     numbers = numbers.reject {|x| x.length != 10}
     @good_numbers = []
     @bad_numbers  = []
+    dataset = params['dataset']
     if numbers.count > 0
-      master = $redis.SMEMBERS 'master'
-      found  = $redis.SMISMEMBER 'master', numbers
+      if dataset == 'verizon'
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row[0, 6] }
+        end
+
+        if dataset == 'ipes'
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row[0, 6] }
+        end
+        if dataset == 'master' 
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
+        end
+
+        if dataset == 'masteripes' 
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
+          masteripes  = $redis.SMISMEMBER dataset, numbers.map{|row| row[0, 6] }
+          numbers.each_with_index do |row, index|
+            if masteripes[index] == 1
+              found[index] = 1
+            end
+          end
+        end
+
+        if dataset == 'masterverizon' 
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
+          verizon  = $redis.SMISMEMBER dataset, numbers.map{|row| row[0, 6] }
+          numbers.each_with_index do |row, index|
+            if verizon[index] == 1
+              found[index] = 1
+            end
+          end
+        end
     end
 
     numbers.each_with_index do |row, index|

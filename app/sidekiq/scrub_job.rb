@@ -43,6 +43,10 @@ class ScrubJob
         if @result.dataset == 'verizon'
           found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
         end
+
+        if @result.dataset == 'ipes'
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+        end
         if @result.dataset == 'master' 
           found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
         end

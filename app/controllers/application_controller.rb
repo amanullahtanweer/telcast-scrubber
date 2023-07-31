@@ -6,8 +6,8 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up,
-                                      keys: %i[company name])
+                                      keys: %i[company name datasets])
     devise_parameter_sanitizer.permit(:account_update,
-                                      keys: %i[company name])
+                                      keys: %i[company name datasets])
   end
 end

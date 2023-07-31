@@ -34,6 +34,8 @@ module ApplicationHelper
       return 'Global Block + Verizon + IPES'
     when "verizon"
       return 'Verizon + IPES'
+    when "ipes"
+      return 'IPES'
     end
   end
 end
