@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
 
   def bootstrap_class_for(flash_type)
     {
@@ -21,5 +22,18 @@ module ApplicationHelper
     HTML
 
     html.html_safe
+  end
+
+  def dataset_name(name)
+    case name
+    when "master"
+      return 'Global Block'
+    when "masteripes"
+      return 'Global Block + IPES'
+    when "masterverizon"
+      return 'Global Block + Verizon + IPES'
+    when "verizon"
+      return 'Verizon + IPES'
+    end
   end
 end

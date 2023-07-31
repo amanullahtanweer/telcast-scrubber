@@ -84,3 +84,5 @@ gem "sidekiq", "~> 7.0"
 gem "hiredis", "~> 0.6.3"
 
 gem 'mina-version_managers'
+gem 'pagy', '~> 6.0' # omit patch digit
+

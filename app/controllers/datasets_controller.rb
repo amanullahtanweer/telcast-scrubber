@@ -25,8 +25,12 @@ class DatasetsController < ApplicationController
     if numbers.count > 0
       if params['modify_action'] == "add"
         $redis.sadd 'master', numbers
+        $redis.sadd 'masteripes', numbers
+        $redis.sadd 'masterverizon', numbers
       else
         $redis.srem 'master', numbers
+        $redis.srem 'masteripes', numbers
+        $redis.srem 'masterverizon', numbers
       end
     end
     flash[:notice] = "#{numbers.length} numbers reflected to master dataset"

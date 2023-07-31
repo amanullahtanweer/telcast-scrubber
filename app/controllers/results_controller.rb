@@ -2,9 +2,10 @@ class ResultsController < ApplicationController
 
   def index
     if current_user.is_admin?
-      @results = Result.first(100)
+      @pagy, @results = pagy(Result.all)
+
     else
-      @results = current_user.results 
+      @pagy, @results = pagy(current_user.results)
     end
   end
 
