@@ -2,10 +2,13 @@ class ResultsController < ApplicationController
 
   def index
     if current_user.is_admin?
-      @pagy, @results = pagy(Result.all)
+      @q = Result.includes(:user).ransack(params[:q])
+      @pagy, @results = pagy(@q.result)
+      
 
     else
-      @pagy, @results = pagy(current_user.results)
+      @q = current_user.results.includes(:user).ransack(params[:q])
+      @pagy, @results = pagy(@q.result)
     end
   end
 
