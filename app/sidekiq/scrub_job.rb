@@ -29,7 +29,7 @@ class ScrubJob
       # Remove any invalid number
       rows.each do |row|
         if row[csv_column]
-          phone = row[csv_column].delete_prefix("1") rescue nil
+          phone = row[csv_column].strip.delete_prefix("1") rescue nil
           if phone.length == 10
             mapped_rows << row
           else

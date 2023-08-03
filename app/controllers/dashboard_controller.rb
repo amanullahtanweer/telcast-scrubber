@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
   def manual_result
     numbers = params['numbers'] || []
 		numbers = numbers.split("\r\n")
-    numbers = numbers.map {|x| x.delete_prefix('1')}
+    numbers = numbers.map {|x| x.strip.delete_prefix('1')}
     numbers = numbers.reject {|x| x.length != 10}
     @good_numbers = []
     @bad_numbers  = []
