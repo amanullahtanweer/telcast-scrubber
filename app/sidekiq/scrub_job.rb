@@ -88,6 +88,7 @@ class ScrubJob
       @result.bad_rows = bad_count
       @result.finished_at = start_time
       @result.job_status  = 'finished'
+      @result.invalid_rows = invalid_count
 
       @result.good_file.attach(io: StringIO.new(good_rows.join("")),
                               filename: "#{file_name}-GOOD.csv",
@@ -100,6 +101,7 @@ class ScrubJob
     rescue => error
       @result.job_status = 'failed'
       @result.finished_at = DateTime.now
+      @result.error_text = error.to_s
       @result.save
       raise error
     end
