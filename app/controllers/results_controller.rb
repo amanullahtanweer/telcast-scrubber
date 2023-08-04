@@ -1,14 +1,14 @@
 class ResultsController < ApplicationController
 
   def index
+    session[:per_page] = params[:per_page] if params[:per_page]
+    @per_page = session[:per_page]
     if current_user.is_admin?
       @q = Result.includes(:user).ransack(params[:q])
-      @pagy, @results = pagy(@q.result)
-      
-
+      @pagy, @results = pagy(@q.result, items: session[:per_page] || "10")
     else
       @q = current_user.results.includes(:user).ransack(params[:q])
-      @pagy, @results = pagy(@q.result)
+      @pagy, @results = pagy(@q.result, items: session[:per_page] || "10")
     end
   end
 

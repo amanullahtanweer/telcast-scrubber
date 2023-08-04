@@ -17,6 +17,7 @@
 Pagy::DEFAULT[:items]  = 10                                 # default
 # Pagy::DEFAULT[:outset] = 0                                  # default
 
+PAGE_SIZES = [10, 50, 100, 200]
 
 # Other Variables
 # See https://ddnexus.github.io/pagy/docs/api/pagy#other-variables
