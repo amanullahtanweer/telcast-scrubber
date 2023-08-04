@@ -2,15 +2,11 @@ class Admin::UsersController < Admin::AdminController
 	before_action :set_user, only: %i[show edit update destroy]
 
 	def index
-		@users = params[:q] ? User.all : User.all
-    @q = @users.ransack(params[:q])
-    if request.xhr?
-      respond_to do |format|
-          format.json {
-              render json: User.where(id: params[:user_id]).first
-          }
-      end
+		if current_user.is_admin? 
+      @users = User.all
     end
+    @q = @users.ransack(params[:q])
+    @pagy, @results = pagy(@q.result)
   end
 
   def show
@@ -38,11 +34,6 @@ class Admin::UsersController < Admin::AdminController
 
   def update
     if @user.update(user_params)
-
-      if @user.previous_changes.key?('max_sessions')
-        sippy    = SippyApi.new({action: "update_max_sessions", account_id: @user.i_account, user: @user})
-        result = sippy.update_account({i_account: @user.i_account.to_i, max_sessions: @user.max_sessions.to_i})
-      end
       redirect_to edit_admin_user_path(@user), notice: 'User was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
