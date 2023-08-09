@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_04_173051) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_09_193725) do
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_04_173051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "datasets", default: "---\n- masteripes\n- masterverizon\n- verizon\n- ipes\n"
+    t.integer "parent_user_id"
+    t.boolean "is_reseller"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
