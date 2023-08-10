@@ -14,10 +14,6 @@
               <%= f.search_field :email_or_company_cont,
                      placeholder:"Search User...",class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
             </div>
-            <div class="relative w-full ml-3">
-              <%= f.select :id_eq,
-                    options_from_collection_for_select(User.unscoped.where(is_admin: false).order(:company), "id", "company", @q.id_eq), {:include_blank => "-- All Users --" }, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", onchange: 'this.form.submit()'} %>
-            </div>
           </div>
         </div>
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
@@ -55,11 +51,20 @@
         </thead>
         <tbody>
           <% @results.each do |user| %>
-            <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <% 
+            klass = ''
+            if user.is_admin
+              klass = 'text-blue-600'
+            end
+            if user.is_reseller
+              klass = 'text-teal-600'
+            end
+            %>
+            <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 <%= klass%>">
+              <th scope="row" class="py-2 px-4 font-medium whitespace-nowrap dark:text-white">
                 <%= user.name %>
               </th>
-              <th scope="row" class="py-2 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" class="py-2 px-4 font-medium whitespace-nowrap dark:text-white">
                 <%= user.company %>
               </th>
               <td class="py-2 px-4">
@@ -88,7 +93,7 @@
     <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4 text-xs" aria-label="Table navigation">
       <span class="text-sm font-normal text-gray-500 dark:text-gray-400 text-xs">
         Showing
-        <span class="font-semibold text-gray-900 dark:text-white text-xs"><%= @results.count %></span>
+        <span class="font-semibold dark:text-white text-xs"><%= @results.count %></span>
         of
         <span class="font-semibold text-gray-900 dark:text-white text-xs"><%= @q.result.count %></span>
       </span>

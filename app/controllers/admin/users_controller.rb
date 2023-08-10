@@ -5,6 +5,9 @@ class Admin::UsersController < Admin::AdminController
 		if current_user.is_admin? 
       @users = User.all
     end
+    if current_user.is_reseller? 
+      @users = current_user.sub_users
+    end
     @q = @users.ransack(params[:q])
     @pagy, @results = pagy(@q.result)
   end
@@ -29,7 +32,12 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def edit
-    @user = User.find(params[:id])
+    if current_user.is_reseller? 
+      @user = current_user.sub_users.find(params[:id])
+    else 
+      @user = User.find(params[:id])
+    end
+    
   end
 
   def update

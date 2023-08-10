@@ -7,7 +7,11 @@ class User < ApplicationRecord
   validates :name, presence: true
   has_many :results
 
+  belongs_to :reseller, class_name: 'User', foreign_key: 'parent_user_id', optional: true
+  has_many :sub_users, class_name: 'User', foreign_key: 'parent_user_id'
+  
   default_scope { order(created_at: :desc) }
+  scope :resellers, -> { where(is_reseller: true) }
 
   serialize :datasets, Array
 
