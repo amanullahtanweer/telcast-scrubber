@@ -49,6 +49,9 @@
               Email
             </th>
             <th scope="col" class="py-3 px-6">
+              Reseller
+            </th>
+            <th scope="col" class="py-3 px-6">
               Active
             </th>
             <th scope="col" class="py-3 px-6">
@@ -78,6 +81,14 @@
               </th>
               <td class="py-2 px-4">
                 <%= user.email %>
+              </td>
+              <td class="py-2 px-4 text-center">
+                <% if user.reseller %>
+                  <small class="d-block bg-primary-100 text-primary-800 px-1 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
+                    <%= user.reseller.name.upcase %></small>
+                <% else %>
+                  -
+                <% end %>
               </td>
               <td class="py-2 px-4 text-center">
                 <% if user.is_active? %>
