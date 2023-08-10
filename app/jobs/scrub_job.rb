@@ -1,7 +1,6 @@
-class ScrubJob
+class ScrubJob < ApplicationJob
   require 'csv'
-  include Sidekiq::Job
-  sidekiq_options retry: 0
+  sidekiq_options retry: 1
 
 
   def perform(result_id)

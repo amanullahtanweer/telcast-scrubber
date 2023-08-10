@@ -9,6 +9,6 @@ class Result < ApplicationRecord
 
 
   def start_scrubbing
-    ScrubJob.perform_async(self.id)
+    ScrubJob.set(wait: 1.second).perform_later(self.id)
   end
 end
