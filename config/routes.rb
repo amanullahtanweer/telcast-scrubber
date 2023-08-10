@@ -3,7 +3,10 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'registrations' }
 
-
+  resources :users, only: [:index] do
+    get :impersonate, on: :member
+    get :stop_impersonating, on: :collection
+  end
   namespace :admin do
     resources :users do
     end
