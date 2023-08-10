@@ -10,6 +10,7 @@ var scrubFrm = $('#new_result').length
 $('form').on('submit', function (event) {
   $(this).find('button[type=submit]').prop('disabled', true)
   $(this).find('button[type=submit]').html('Please wait...')
+  document.getElementById('response').classList.remove('hidden')
 })
 
 $(document).on('input propertychange', '#numbers', function () {
@@ -53,7 +54,6 @@ if (scrubFrm) {
   function parseFile(file) {
     if (file.type == 'text/csv') {
       document.getElementById('upload-btn').removeAttribute('disabled')
-      document.getElementById('response').classList.remove('hidden')
       console.log(file.name)
       output(
         '<p class="text-xs text-green mb-2">' + encodeURI(file.name) + '</p>'
