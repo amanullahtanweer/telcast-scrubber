@@ -9,7 +9,7 @@ class ResultsController < ApplicationController
       @pagy, @results = pagy(@q.result, items: session[:per_page] || "10")
     elsif current_user.is_reseller?
       @users = current_user.sub_users
-      @q = Result.includes(:user).where(user_id: current_user.sub_users.ids).ransack(params[:q])
+      @q = Result.includes(:user).where(user_id: current_user.sub_users.ids.push(current_user.id)).ransack(params[:q])
       @pagy, @results = pagy(@q.result, items: session[:per_page] || "10")
     else
       @q = current_user.results.includes(:user).ransack(params[:q])
