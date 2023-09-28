@@ -30,6 +30,7 @@ class ScrubJob < ApplicationJob
         if row[csv_column]
           phone = row[csv_column].strip.delete_prefix("1") rescue nil
           if phone.length == 10
+            row[csv_column] = phone
             mapped_rows << row
           else
             invalid_count += 1
