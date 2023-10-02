@@ -9,11 +9,11 @@ require 'mina/rbenv'  # for rbenv support. (https://rbenv.org)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :application_name, 'didnumber'
-set :domain, 'deploy@176.9.127.42'
-set :deploy_to, '/home/deploy/didnumber'
-set :repository, 'https://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@github.com/amanullahtanweer/did-number.git'
-set :branch, 'master'
+set :application_name, 'blocks.scrublists.com'
+set :domain, 'deploy@116.202.237.54'
+set :deploy_to, '/home/deploy/blocks.scrublists.com'
+set :repository, 'https://github.com/amanullahtanweer/telcast-scrubber.git'
+set :branch, 'main'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
