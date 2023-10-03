@@ -15,5 +15,13 @@ class User < ApplicationRecord
 
   serialize :datasets, Array
 
+  before_create :generate_api_key
+
+
+  private
+  
+  def generate_api_key
+    self.api_key = SecureRandom.hex(5).upcase
+  end
 
 end

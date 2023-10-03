@@ -66,6 +66,7 @@ task :deploy do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
         command %{sudo systemctl restart nginx}
+        command %{sudo systemctl restart sidekiq.service}
       end
     end
   end
