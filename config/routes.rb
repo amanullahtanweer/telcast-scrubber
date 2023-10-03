@@ -1,7 +1,14 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  namespace :api do
+    get 'sessions/create'
+  end
   devise_for :users, controllers: { registrations: 'registrations' }
+
+  namespace :api do
+    get '/login', to: 'sessions#create'
+  end
 
   resources :users, only: [:index] do
     get :impersonate, on: :member
