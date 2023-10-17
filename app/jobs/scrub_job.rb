@@ -14,6 +14,7 @@ class ScrubJob < ApplicationJob
       good_rows = []
       bad_rows  = []
       mapped_rows = []
+      mapped_lrn_rows = []
 
       rows = CSV.parse(@result.file.download, headers: false)
       headers = CSV.generate_line(rows[0])
@@ -38,22 +39,33 @@ class ScrubJob < ApplicationJob
         end
       end
       start_time = DateTime.now
+
+      lrn_numbers = $redis_lrn.HMGET 'lerg', mapped_rows.map{|row| row[csv_column]}
+      mapped_rows.each_with_index do |row, index|
+        if lrn_numbers[index].nil?
+          mapped_lrn_rows[index] = row[csv_column]
+        else
+          mapped_lrn_rows[index] = lrn_numbers[index]
+        end
+      end
+      
+
       if mapped_rows.count > 0
         master = $redis.SMEMBERS @result.dataset
         if @result.dataset == 'verizon'
-          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
 
         if @result.dataset == 'ipes'
-          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
         if @result.dataset == 'master' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
+          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
         end
 
         if @result.dataset == 'masteripes' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
-          masteripes  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
+          masteripes  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
             if masteripes[index] == 1
               found[index] = 1
@@ -62,8 +74,8 @@ class ScrubJob < ApplicationJob
         end
 
         if @result.dataset == 'masterverizon' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
-          verizon  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column][0, 6] }
+          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
+          verizon  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
             if verizon[index] == 1
               found[index] = 1

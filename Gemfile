@@ -88,3 +88,4 @@ gem 'pagy', '~> 6.0' # omit patch digit
 
 gem 'parallel'
 gem "pretender"
+gem 'rack-cors'
