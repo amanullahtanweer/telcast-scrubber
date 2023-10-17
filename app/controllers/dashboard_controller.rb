@@ -14,25 +14,33 @@ class DashboardController < ApplicationController
     numbers = numbers.map {|x| x.strip.delete_prefix('1')}
     numbers = numbers.reject {|x| x.length != 10}
     lrn_numbers = $redis_lrn.HMGET 'lerg', numbers.map{|row| row}
-
+    mapped_lrn_rows = []
     @good_numbers = []
     @bad_numbers  = []
     dataset = params['dataset']
     if numbers.count > 0
+      numbers.each_with_index do |row, index|
+        if lrn_numbers[index].nil?
+          mapped_lrn_rows[index] = row
+        else
+          mapped_lrn_rows[index] = lrn_numbers[index]
+        end
+      end
+
       if dataset == 'verizon'
-          found  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row[0, 6] }
+          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
 
         if dataset == 'ipes'
-          found  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row[0, 6] }
+          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
         if dataset == 'master' 
-          found  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row}
+          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
         end
 
         if dataset == 'masteripes' 
-          found  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row}
-          masteripes  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row[0, 6] }
+          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
+          masteripes  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           numbers.each_with_index do |row, index|
             if masteripes[index] == 1
               found[index] = 1
@@ -41,8 +49,8 @@ class DashboardController < ApplicationController
         end
 
         if dataset == 'masterverizon' 
-          found  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row}
-          verizon  = $redis.SMISMEMBER dataset, lrn_numbers.map{|row| row[0, 6] }
+          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
+          verizon  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           numbers.each_with_index do |row, index|
             if verizon[index] == 1
               found[index] = 1
