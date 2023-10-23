@@ -35,11 +35,11 @@ class DashboardController < ApplicationController
           found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
         if dataset == 'master' 
-          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
         end
 
         if dataset == 'masteripes' 
-          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
           masteripes  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           numbers.each_with_index do |row, index|
             if masteripes[index] == 1
@@ -49,7 +49,7 @@ class DashboardController < ApplicationController
         end
 
         if dataset == 'masterverizon' 
-          found  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER dataset, numbers.map{|row| row}
           verizon  = $redis.SMISMEMBER dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           numbers.each_with_index do |row, index|
             if verizon[index] == 1

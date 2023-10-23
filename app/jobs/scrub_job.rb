@@ -60,11 +60,11 @@ class ScrubJob < ApplicationJob
           found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
         if @result.dataset == 'master' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
         end
 
         if @result.dataset == 'masteripes' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
           masteripes  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
             if masteripes[index] == 1
@@ -74,7 +74,7 @@ class ScrubJob < ApplicationJob
         end
 
         if @result.dataset == 'masterverizon' 
-          found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row}
+          found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
           verizon  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
             if verizon[index] == 1
