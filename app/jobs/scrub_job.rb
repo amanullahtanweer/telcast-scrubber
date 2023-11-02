@@ -48,7 +48,7 @@ class ScrubJob < ApplicationJob
           mapped_lrn_rows[index] = lrn_numbers[index]
         end
       end
-      
+
 
       if mapped_rows.count > 0
         master = $redis.SMEMBERS @result.dataset
@@ -59,11 +59,16 @@ class ScrubJob < ApplicationJob
         if @result.dataset == 'ipes'
           found  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
         end
-        if @result.dataset == 'master' 
+
+        if @result.dataset == 'master'
           found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
         end
 
-        if @result.dataset == 'masteripes' 
+        if @result.dataset == 'dnc'
+          found  = $redis_lrn.SMISMEMBER 'dnc', mapped_rows.map{|row| row[csv_column]}
+        end
+
+        if @result.dataset == 'masteripes'
           found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
           masteripes  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
@@ -73,7 +78,7 @@ class ScrubJob < ApplicationJob
           end
         end
 
-        if @result.dataset == 'masterverizon' 
+        if @result.dataset == 'masterverizon'
           found  = $redis.SMISMEMBER @result.dataset, mapped_rows.map{|row| row[csv_column]}
           verizon  = $redis.SMISMEMBER @result.dataset, mapped_lrn_rows.map{|row| row[0, 6] }
           mapped_rows.each_with_index do |row, index|
@@ -107,9 +112,9 @@ class ScrubJob < ApplicationJob
                               content_type: 'text/csv')
       @result.bad_file.attach(io: StringIO.new(bad_rows.join("")),
                               filename: "#{file_name}-BAD.csv",
-                              content_type: 'text/csv')                        
+                              content_type: 'text/csv')
       @result.save
-    
+
     rescue => error
       @result.job_status = 'failed'
       @result.finished_at = DateTime.now
