@@ -2,10 +2,10 @@ class Admin::UsersController < Admin::AdminController
 	before_action :set_user, only: %i[show edit update destroy]
 
 	def index
-		if current_user.is_admin? 
+		if current_user.is_admin?
       @users = User.all
     end
-    if current_user.is_reseller? 
+    if current_user.is_reseller?
       @users = current_user.sub_users
     end
     @q = @users.ransack(params[:q])
@@ -20,7 +20,7 @@ class Admin::UsersController < Admin::AdminController
     @user = User.new
   end
 
-  def create 
+  def create
     @user = User.new(user_params)
     respond_to do |format|
       if @user.save
@@ -32,12 +32,12 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def edit
-    if current_user.is_reseller? 
+    if current_user.is_reseller?
       @user = current_user.sub_users.find(params[:id])
-    else 
+    else
       @user = User.find(params[:id])
     end
-    
+
   end
 
   def update
@@ -57,11 +57,11 @@ class Admin::UsersController < Admin::AdminController
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
-    params.require(:user).permit(:name, :phone, :password, :password_confirmation, :company, :email, :is_reseller, :is_active, {:datasets => []} )
+    params.require(:user).permit(:name, :phone, :password, :password_confirmation, :company, :email, :is_reseller,:is_dnc_scrubber, :is_active, {:datasets => []} )
   end
 
 
-  def set_user 
+  def set_user
     @user = User.find(params[:id])
   end
 

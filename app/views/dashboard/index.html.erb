@@ -15,8 +15,11 @@
         <% current_user.datasets.each do |set|%>
           <% if set != ""%>
             <option  value="<%= set %>"><%= dataset_name(set) %></option>
-          <% end%>
+          <% end %>
         <%end%>
+        <% if current_user.is_dnc_scrubber %>
+          <option  value="dnc">DNC</option>
+        <% end %>
       </select>
       <div class="flex items-center justify-center w-full mb-3">
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="file-drag">

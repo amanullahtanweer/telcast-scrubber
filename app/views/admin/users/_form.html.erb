@@ -22,10 +22,12 @@
       <%= f.input :password_confirmation, input_html: { autocomplete: 'new-password', role: 'presentation' } %>
     </div>
     <%= f.input :is_active, as: :select, collection: [['Active',true], ['Disabled',false]], label: 'Active Status', include_blank: false %>
-    <%= f.input :datasets, include_blank: false, :collection => [["Global Block", 'master'],['Global Block + IPES', 'masteripes'],['Global Block + Verizon + IPES','masterverizon'],['Verizon + IPES','verizon'],['IPES','ipes'], ['DNC','dnc']], input_html: { multiple: true }  %>
+    <%= f.input :datasets, include_blank: false, :collection => [["Global Block", 'master'],['Global Block + IPES', 'masteripes'],['Global Block + Verizon + IPES','masterverizon'],['Verizon + IPES','verizon'],['IPES','ipes']], input_html: { multiple: true }  %>
     <% if current_user.is_admin %>
       <div>
-        <%= f.input :is_reseller, label: 'Type Reseller'  %>
+        <%= f.input :is_dnc_scrubber, label: '&nbsp;Enable Federal DNC <small>(Billable Product)</small>
+'.html_safe  %>
+        <%= f.input :is_reseller, label: '&nbsp;Type Reseller'.html_safe  %>
       </div>
     <% end %>
   </div>
