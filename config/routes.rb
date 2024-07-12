@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     get '/login', to: 'sessions#create'
+    get '/list', to: 'sessions#list'
   end
 
   resources :users, only: [:index] do
